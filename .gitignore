@@ -47,6 +47,10 @@ Temporary Items
 .apdisk
 
 # LPCXpresso
-.mk
-.d
-.o
+/Debug/
+/.cproject
+/.project
+/liblinks.xml
+*.mk
+*.d
+*.o
