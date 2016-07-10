@@ -1,6 +1,5 @@
 
 // Pin list of LPC1114
-
 // Port0
 #define PIO0_0	0
 #define PIO0_1	1
@@ -30,3 +29,4 @@
 
 #define MAXNUMPIN	16  //the maximum number of pins in a port
 #define NC  1000
+
