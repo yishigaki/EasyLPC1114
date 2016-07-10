@@ -48,6 +48,7 @@ Temporary Items
 
 # LPCXpresso
 /Debug/
+/Release/
 /.cproject
 /.project
 /liblinks.xml

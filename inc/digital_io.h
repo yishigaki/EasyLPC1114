@@ -102,8 +102,6 @@ public:
 	DigitalOut& operator[](uint32_t index){return bus[index];}
 };
 
-//========== Bus ====================
-
 class BusIn{
 private:
 	uint32_t nPins;		//the  number of pins

@@ -2,7 +2,7 @@
 
 volatile uint32_t tickCount;
 
-//割り込みハンドラへの関数ポインタ
+// pointers to interrupt handlers
 void (*fptr_isr_timer32_0)(void);
 void (*fptr_isr_timer32_1)(void);
 void (*fptr_isr_timer16_0)(void);
@@ -37,13 +37,13 @@ Timer32::Timer32(uint32_t set_timer_num)
 	timer_num = set_timer_num;
 	if(timer_num == TIMER0){
 		address = LPC_TMR32B0;
-		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<9);  //system clock 供給
+		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<9);  //provide system clock
 
 		NVIC_EnableIRQ(TIMER_32_0_IRQn);  //Enable the TIMER0 Interrupt
 
 	}else if(timer_num == TIMER1){
 		address = LPC_TMR32B1;
-		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<10); //system clock 供給
+		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<10); //provide system clock
 
 		NVIC_EnableIRQ(TIMER_32_1_IRQn);  //Enable the TIMER1 Interrupt
 
@@ -134,13 +134,13 @@ Timer16::Timer16(uint32_t set_timer_num)
 	timer_num = set_timer_num;
 	if(timer_num == TIMER0){
 		address = LPC_TMR16B0;
-		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<7);  //system clock 供給
+		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<7);  //provide system clock
 
 		NVIC_EnableIRQ(TIMER_16_0_IRQn);  //Enable the TIMER0 Interrupt
 
 	}else if(timer_num == TIMER1){
 		address = LPC_TMR16B1;
-		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<8); //system clock 供給
+		LPC_SYSCON->SYSAHBCLKCTRL |= (1<<8); //provide system clock
 
 		NVIC_EnableIRQ(TIMER_16_1_IRQn);  //Enable the TIMER1 Interrupt
 
@@ -198,7 +198,7 @@ void Timer16::wait_us(uint32_t us)
 	while (address->TCR & 0x01);  //wait until delay time has elapsed
 }
 
-//SystickTimerを使ったwait
+// wait using SystickTimer
 /*void wait_ms(uint32_t waitTicks){
 	tickCount = 0;
 	SysTick_Config(SystemCoreClock / 1000);
@@ -220,19 +220,31 @@ void wait_cycle(uint32_t cycle)
 	}
 }
 
-//nopを使ったwait 精度は期待しないように
+// -- wait using nop (not accurate) --
 void wait_ms(uint32_t ms)
 {
-	uint32_t count = ms * ((SystemCoreClock/LPC_SYSCON->SYSAHBCLKDIV) / 1000/15);
-	for(uint32_t i=0; i<count; i++){
+#if defined(DEBUG)
+	uint32_t adj = 25;
+#else
+	uint32_t adj = 15;
+#endif
+	uint32_t count = ms * ((SystemCoreClock/LPC_SYSCON->SYSAHBCLKDIV) / 1000 / adj);
+	volatile uint32_t i;
+	for(i=0; i<count; i++){
 		//__asm volatile("nop");
 	}
 }
 
 void wait_us(uint32_t us)
 {
-	uint32_t count = us * ((SystemCoreClock/LPC_SYSCON->SYSAHBCLKDIV) / 1000000/15);
-	for(uint32_t i=0; i<count; i++){
+#if defined(DEBUG)
+	uint32_t adj = 25;
+#else
+	uint32_t adj = 15;
+#endif
+	uint32_t count = us * ((SystemCoreClock/LPC_SYSCON->SYSAHBCLKDIV) / 1000000 / adj);
+	volatile uint32_t i;
+	for(i=0; i<count; i++){
 		//__asm volatile("nop");
 	}
 }

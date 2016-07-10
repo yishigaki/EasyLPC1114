@@ -8,7 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-//割り込みハンドラの宣言
+// Interrupt handler
 void TIMER32_0_IRQHandler(void);
 void TIMER32_1_IRQHandler(void);
 void TIMER16_0_IRQHandler(void);
@@ -19,7 +19,7 @@ void SysTick_Handler(void);
 }
 #endif
 
-//32bitタイマー
+//32bit timer
 class Timer32 {
 private:
 	uint32_t timer_num;
@@ -40,7 +40,7 @@ public:
 	void wait_us(uint32_t us);
 };
 
-//16bitタイマー
+//16bit timer
 class Timer16 {
 private:
 	uint32_t timer_num;
@@ -58,11 +58,11 @@ public:
 	void wait_us(uint32_t us);
 };
 
-//SystickTimerを使ったwait
+// wait using SystickTimer
 //void wait_ms(uint32_t waitTicks);
 //void wait_us(uint32_t waitTicks);
 
-//nopを使ったwait
+// wait using nop (not accurate)
 void wait_cycle(uint32_t cycle);
 void wait_ms(uint32_t ms);
 void wait_us(uint32_t us);
