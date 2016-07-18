@@ -1,3 +1,4 @@
+#pragma once
 
 // Pin list of LPC1114
 // Port0

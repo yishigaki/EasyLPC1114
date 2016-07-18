@@ -46,7 +46,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-//割り込みハンドラの宣言
+//interrupt handler
 void I2C_IRQHandler(void);
 
 #ifdef __cplusplus
